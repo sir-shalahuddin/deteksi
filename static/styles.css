@@ -1,0 +1,146 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f3f3f3;
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  /* Menambahkan posisi relatif untuk overlay */
+}
+
+h1,
+h2 {
+  text-align: center;
+  /* Tengahkan teks */
+}
+
+form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#file-input {
+  display: none;
+}
+
+#file-label {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#upload-button {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+  position: absolute;
+  /* Memposisikan loader di tengah */
+  top: 50%;
+  /* Menempatkan loader di tengah vertikal */
+  left: 50%;
+  /* Menempatkan loader di tengah horizontal */
+  transform: translate(-50%, -50%);
+  /* Menggeser loader ke tengah */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Menambahkan efek gelap */
+  z-index: 1000;
+  /* Menempatkan overlay di atas semua elemen */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#loading p {
+  text-align: center;
+  color: #333;
+}
+
+.selected-image {
+  max-width: 100%;
+  /* Membatasi lebar gambar agar sesuai dengan lebar kontainer */
+  max-height: 300px;
+  /* Membatasi tinggi gambar agar tidak melebihi 400px */
+  margin: 0 auto;
+  display: block;
+}
+
+.result-image {
+  max-width: 100%;
+  /* Membatasi lebar gambar agar sesuai dengan lebar kontainer */
+  max-height: 400px;
+  /* Membatasi tinggi gambar agar tidak melebihi 400px */
+  display: block;
+  margin: 0 auto;
+}
+
+
+.upload-button {
+  display: block;
+  width: fit-content;
+  margin: 20px auto;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.upload-button:hover {
+  background-color: #0056b3;
+}
+
+.flex-box {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  /* Menengahkan vertikal konten */
+}
+
+.result .counter {
+  flex: 1;
+  margin: auto 20px;
+}

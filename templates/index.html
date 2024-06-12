@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Image for Detection</h1>
+        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file-input" accept="image/*">
+            <label for="file-input" id="file-label">Choose a file</label>
+            <button type="submit" id="upload-button">Upload</button>
+        </form>
+        <div id="loading" class="hidden">
+            <div class="overlay"></div>
+            <div class="loader"></div>
+            <p>Please wait for detection process...</p>
+        </div>
+        <!-- Tambahkan elemen img untuk menampilkan gambar yang dipilih -->
+        <img id="selected-image" class="hidden" src="#" alt="Selected Image">
+    </div>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', function() {
+            var filename = this.files[0].name;
+            document.getElementById('file-label').innerText = filename;
+
+            // Tampilkan gambar yang dipilih
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('selected-image').src = e.target.result;
+                document.getElementById('selected-image').classList.remove('hidden');
+                document.getElementById('selected-image').classList.add('selected-image');
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        document.getElementById('upload-form').addEventListener('submit', function() {
+            document.getElementById('upload-button').style.display = 'none';
+            document.getElementById('loading').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

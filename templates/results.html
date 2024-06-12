@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detection Results</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Detection Results</h1>
+    <div class="flex-box">
+      <div class="result">
+        <img src="{{ url_for('uploaded_file', filename=sahi_image) }}" alt="SAHI Result" class="result-image">
+      </div>
+      <div class="counter">
+        <h2>Object Counts:</h2>
+        <ul>
+          {% for label, count in object_counts.items() %}
+          <li>{{ label }}: {{ count }}</li>
+          {% endfor %}
+        </ul>
+        <a href="/" class="upload-button">Upload Another Image</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
