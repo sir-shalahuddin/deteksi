@@ -1,0 +1,7 @@
+# .vercelignore
+__pycache__/
+*.pyc
+*.log
+node_modules/
+.git/
+api/venv/

@@ -4,17 +4,16 @@ from sahi.predict import get_sliced_prediction
 import os
 from PIL import Image
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'static/uploads/'
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
+app.config['UPLOAD_FOLDER'] = os.path.join('..', 'static', 'uploads')
 
 # Load custom YOLOv8 model using SAHI
-model_path = 'models/fold-2.pt'
+model_path = os.path.join('..', 'models', 'fold-2.pt')
 detection_model = AutoDetectionModel.from_pretrained(
     model_type='yolov8',
     model_path=model_path,
     confidence_threshold=0.2,
-    device='cpu',  # Use GPU if available
-    config_path=None  # Adjust if necessary
+    device='cpu'  # Use 'cuda' if deploying with GPU support
 )
 
 @app.route('/')
@@ -30,6 +29,7 @@ def upload_file():
         return "No selected file"
     if file:
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)  # Ensure the upload folder exists
         file.save(file_path)
 
         # Process image with SAHI and YOLOv8
@@ -42,24 +42,17 @@ def upload_file():
             overlap_width_ratio=0.2,
         )
 
-        # Check input image format
-        with Image.open(file_path) as img:
-            image_format = img.format
-
-        # Save SAHI result with the same format as input image
-        sahi_result_img_path = os.path.join(app.config['UPLOAD_FOLDER'], 'sahi_result')
+        # Save SAHI result image
+        sahi_result_img_path = os.path.join(app.config['UPLOAD_FOLDER'], 'sahi_result.png')
         sahi_result.export_visuals(export_dir=app.config['UPLOAD_FOLDER'], file_name='sahi_result')
 
         # Count objects detected
         object_counts = {}
         for prediction in sahi_result.object_prediction_list:
             label = prediction.category.name
-            if label in object_counts:
-                object_counts[label] += 1
-            else:
-                object_counts[label] = 1
+            object_counts[label] = object_counts.get(label, 0) + 1
 
-         # Hapus file yang diupload setelah selesai digunakan
+        # Remove the uploaded file after processing
         os.remove(file_path)
 
         return render_template('results.html', sahi_image='sahi_result.png', object_counts=object_counts)
