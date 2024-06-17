@@ -5,7 +5,7 @@ import os
 from PIL import Image
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
-app.config['UPLOAD_FOLDER'] = os.path.join('..', 'static', 'uploads')
+# app.config['UPLOAD_FOLDER'] = os.path.join('..', 'static', 'uploads')
 
 # Load custom YOLOv8 model using SAHI
 model_path = os.path.join('..', 'models', 'fold-2.pt')
@@ -28,8 +28,8 @@ def upload_file():
     if file.filename == '':
         return "No selected file"
     if file:
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)  # Ensure the upload folder exists
+        file_path = os.path.join("static/uploads", file.filename)
+        os.makedirs("static/uploads/", exist_ok=True)  # Ensure the upload folder exists
         file.save(file_path)
 
         # Process image with SAHI and YOLOv8
@@ -43,8 +43,8 @@ def upload_file():
         )
 
         # Save SAHI result image
-        sahi_result_img_path = os.path.join(app.config['UPLOAD_FOLDER'], 'sahi_result.png')
-        sahi_result.export_visuals(export_dir=app.config['UPLOAD_FOLDER'], file_name='sahi_result')
+        sahi_result_img_path = os.path.join("static/uploads" ,'sahi_result.png')
+        sahi_result.export_visuals("static/uploads", file_name='sahi_result')
 
         # Count objects detected
         object_counts = {}
@@ -59,7 +59,7 @@ def upload_file():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory("../static/uploads", filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

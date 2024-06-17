@@ -1,7 +1,7 @@
 __pycache__/
 *.pyc
-uploads/
+# uploads/
 env
 .vercel
-api/venv/
+venv/
 .vercel
